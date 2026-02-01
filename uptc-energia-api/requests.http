@@ -1,0 +1,252 @@
+### UPTC Energy API - Test Requests
+### Base URL: http://localhost:3000
+
+@baseUrl = http://localhost:3000
+
+### ============================================
+### HEALTH & INFO
+### ============================================
+
+### API Info (Root)
+GET {{baseUrl}}/
+
+###
+
+### Health Check
+GET {{baseUrl}}/health
+
+### ============================================
+### SEDES (Campus Locations)
+### ============================================
+
+### Listar todas las sedes
+GET {{baseUrl}}/sedes
+
+###
+
+### Listar sedes con estadisticas
+GET {{baseUrl}}/sedes?with_stats=true
+
+###
+
+### Obtener sede especifica - Tunja
+GET {{baseUrl}}/sedes/UPTC_TUN
+
+###
+
+### Obtener sede especifica - Duitama
+GET {{baseUrl}}/sedes/UPTC_DUI
+
+###
+
+### Obtener sede especifica - Sogamoso
+GET {{baseUrl}}/sedes/UPTC_SOG
+
+###
+
+### Obtener sede especifica - Chiquinquira
+GET {{baseUrl}}/sedes/UPTC_CHI
+
+### ============================================
+### CONSUMOS (Energy Readings)
+### ============================================
+
+### Ultimos 10 consumos (orden descendente por defecto)
+GET {{baseUrl}}/consumos?limit=10
+
+###
+
+### Consumos con paginacion
+GET {{baseUrl}}/consumos?limit=20&offset=0
+
+###
+
+### Consumos ordenados ascendente (mas antiguos primero)
+GET {{baseUrl}}/consumos?limit=10&order=asc
+
+###
+
+### Consumos filtrados por sede - Tunja
+GET {{baseUrl}}/consumos?sede_id=UPTC_TUN&limit=10
+
+###
+
+### Consumos filtrados por sede - Duitama
+GET {{baseUrl}}/consumos?sede_id=UPTC_DUI&limit=10
+
+###
+
+### Consumos filtrados por rango de fechas
+GET {{baseUrl}}/consumos?from=2025-01-01&to=2025-01-31&limit=50
+
+###
+
+### Consumos de Tunja en Diciembre 2025
+GET {{baseUrl}}/consumos?sede_id=UPTC_TUN&from=2025-12-01&to=2025-12-31&limit=100
+
+###
+
+### Consumos de Sogamoso en Octubre 2025
+GET {{baseUrl}}/consumos?sede_id=UPTC_SOG&from=2025-10-01&to=2025-10-31&limit=100
+
+###
+
+### Obtener lectura especifica por ID
+GET {{baseUrl}}/consumos/1000
+
+###
+
+### Obtener lectura especifica por ID (otra)
+GET {{baseUrl}}/consumos/50000
+
+### ============================================
+### STATS - DIARIO (Daily Aggregation)
+### ============================================
+
+### Estadisticas diarias - ultimos 10 dias
+GET {{baseUrl}}/stats/diario?limit=10
+
+###
+
+### Estadisticas diarias con paginacion
+GET {{baseUrl}}/stats/diario?limit=30&offset=0
+
+###
+
+### Estadisticas diarias por sede - Tunja
+GET {{baseUrl}}/stats/diario?sede_id=UPTC_TUN&limit=10
+
+###
+
+### Estadisticas diarias por rango de fechas
+GET {{baseUrl}}/stats/diario?from=2025-06-01&to=2025-06-30&limit=100
+
+###
+
+### Estadisticas diarias - Duitama en Enero 2025
+GET {{baseUrl}}/stats/diario?sede_id=UPTC_DUI&from=2025-01-01&to=2025-01-31
+
+### ============================================
+### STATS - SECTOR (By Sector Breakdown)
+### ============================================
+
+### Consumo por sector - ultimos registros
+GET {{baseUrl}}/stats/sector?limit=10
+
+###
+
+### Consumo por sector - sede Tunja
+GET {{baseUrl}}/stats/sector?sede_id=UPTC_TUN&limit=10
+
+###
+
+### Consumo por sector - rango de fechas
+GET {{baseUrl}}/stats/sector?from=2025-03-01&to=2025-03-31&limit=50
+
+###
+
+### Consumo por sector - Sogamoso Julio 2024
+GET {{baseUrl}}/stats/sector?sede_id=UPTC_SOG&from=2024-07-01&to=2024-07-31
+
+### ============================================
+### STATS - HORARIO (Hourly Patterns)
+### ============================================
+
+### Patron horario - todas las sedes
+GET {{baseUrl}}/stats/horario
+
+###
+
+### Patron horario - sede Tunja
+GET {{baseUrl}}/stats/horario?sede_id=UPTC_TUN
+
+###
+
+### Patron horario - Duitama
+GET {{baseUrl}}/stats/horario?sede_id=UPTC_DUI
+
+###
+
+### Patron horario - solo fines de semana
+GET {{baseUrl}}/stats/horario?es_fin_semana=true
+
+###
+
+### Patron horario - solo dias laborales
+GET {{baseUrl}}/stats/horario?es_fin_semana=false
+
+###
+
+### Patron horario - Tunja fines de semana
+GET {{baseUrl}}/stats/horario?sede_id=UPTC_TUN&es_fin_semana=true
+
+### ============================================
+### STATS - PERIODO (Academic Period)
+### ============================================
+
+### Consumo por periodo academico - todos
+GET {{baseUrl}}/stats/periodo
+
+###
+
+### Consumo por periodo academico - sede Tunja
+GET {{baseUrl}}/stats/periodo?sede_id=UPTC_TUN
+
+###
+
+### Consumo por periodo academico - ano 2025
+GET {{baseUrl}}/stats/periodo?año=2025
+
+###
+
+### Consumo por periodo academico - ano 2024
+GET {{baseUrl}}/stats/periodo?año=2024
+
+###
+
+### Consumo por periodo academico - Tunja 2025
+GET {{baseUrl}}/stats/periodo?sede_id=UPTC_TUN&año=2025
+
+### ============================================
+### STATS - SUMMARY (Overall Statistics)
+### ============================================
+
+### Resumen general de todas las sedes
+GET {{baseUrl}}/stats/summary
+
+###
+
+### Resumen de sede Tunja
+GET {{baseUrl}}/stats/summary?sede_id=UPTC_TUN
+
+###
+
+### Resumen de sede Duitama
+GET {{baseUrl}}/stats/summary?sede_id=UPTC_DUI
+
+###
+
+### Resumen de sede Sogamoso
+GET {{baseUrl}}/stats/summary?sede_id=UPTC_SOG
+
+###
+
+### Resumen de sede Chiquinquira
+GET {{baseUrl}}/stats/summary?sede_id=UPTC_CHI
+
+### ============================================
+### ERROR CASES (Testing)
+### ============================================
+
+### Sede no existente (404)
+GET {{baseUrl}}/sedes/INVALID_SEDE
+
+###
+
+### Lectura no existente (404)
+GET {{baseUrl}}/consumos/999999999
+
+###
+
+### Ruta no existente (404)
+GET {{baseUrl}}/invalid/route

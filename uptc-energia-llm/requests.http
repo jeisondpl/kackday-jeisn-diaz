@@ -1,0 +1,154 @@
+### UPTC Energia LLM - Test Requests
+### Base URL: http://localhost:3001
+
+@baseUrl = http://localhost:3001
+
+### ============================================
+### HEALTH
+### ============================================
+
+### Health Check
+GET {{baseUrl}}/llm/health
+
+### ============================================
+### INGESTION
+### ============================================
+
+### Ejecutar ingesta manual (últimas 24h) + evaluar reglas
+POST {{baseUrl}}/llm/ingestion/run
+Content-Type: application/json
+
+{
+  "hours_back": 24,
+  "evaluate_rules": true
+}
+
+### Obtener estado de ingesta
+GET {{baseUrl}}/llm/ingestion/status
+
+### ============================================
+### RULES
+### ============================================
+
+### Listar reglas
+GET {{baseUrl}}/llm/rules
+
+### Crear regla out_of_schedule
+POST {{baseUrl}}/llm/rules
+Content-Type: application/json
+
+{
+  "name": "Consumo alto fuera de horario - Comedores",
+  "description": "Regla para consumo fuera de horario laboral",
+  "dsl": {
+    "type": "out_of_schedule",
+    "scope": { "sede_id": "UPTC_TUN", "sector": "comedores" },
+    "metric": "energiaTotal",
+    "schedule": { "allowed": [{ "from": "06:00", "to": "21:00" }] },
+    "condition": { "gt": 120 },
+    "severity": "critical",
+    "messageTemplate": "Consumo alto fuera de horario en {sector} ({value} kWh > {threshold})"
+  },
+  "enabled": true
+}
+
+### Actualizar regla
+PUT {{baseUrl}}/llm/rules/2
+Content-Type: application/json
+
+{
+  "name": "Consumo alto fuera de horario - Comedores (ajustada)",
+  "enabled": true
+}
+
+### Eliminar regla
+DELETE {{baseUrl}}/llm/rules/2
+
+### ============================================
+### ALERTS
+### ============================================
+
+### Listar alertas (abiertas, críticas)
+GET {{baseUrl}}/llm/alerts?status=open&severity=critical&limit=20
+
+### Obtener alerta por ID (incluye evidencia)
+GET {{baseUrl}}/llm/alerts/1
+
+### Obtener explicación de alerta
+GET {{baseUrl}}/llm/alerts/1/explanation
+
+### Acknowledge alerta
+POST {{baseUrl}}/llm/alerts/1/ack
+Content-Type: application/json
+
+{
+  "acknowledged_by": "admin@uptc.edu.co"
+}
+
+### ============================================
+### RECOMMENDATIONS (RAG)
+### ============================================
+
+### Generar recomendación para una alerta
+POST {{baseUrl}}/llm/recommendations/alerts/1
+
+### ============================================
+### ANALYTICS
+### ============================================
+
+### Resumen analítico (KPIs + anomalías + forecast)
+GET {{baseUrl}}/llm/analytics/summary?sede_id=UPTC_TUN
+
+### Anomalías últimas 24h
+GET {{baseUrl}}/llm/analytics/anomalies?sede_id=UPTC_TUN&metric=energiaTotal&hours=24&threshold=3.0
+
+### Forecast próximas 24h
+GET {{baseUrl}}/llm/analytics/forecast?sede_id=UPTC_TUN&metric=energiaTotal&hours=24&lookback_days=30
+
+### Baseline por hora/día
+GET {{baseUrl}}/llm/analytics/baseline?sede_id=UPTC_TUN&metric=energiaTotal&days=30
+
+### Recalcular baseline (persistir)
+POST {{baseUrl}}/llm/analytics/baseline/recalculate
+Content-Type: application/json
+
+{
+  "sede_id": "UPTC_TUN",
+  "metric": "energiaTotal",
+  "lookback_days": 30
+}
+
+### ============================================
+### DOCS (RAG)
+### ============================================
+
+### Crear documento (contenido directo)
+POST {{baseUrl}}/llm/docs
+Content-Type: application/json
+
+{
+  "title": "Guía eficiencia energética comedores",
+  "content": "Texto del documento...",
+  "sector": "comedores",
+  "tags": ["hvac", "iluminacion"],
+  "index": true
+}
+
+### Listar documentos
+GET {{baseUrl}}/llm/docs?sector=comedores&tags=hvac,iluminacion&indexed=true
+
+### ============================================
+### QUERY (NL)
+### ============================================
+
+### Consulta en lenguaje natural
+POST {{baseUrl}}/llm/query
+Content-Type: application/json
+
+{
+  "question": "¿Cuál es el consumo promedio en Tunja este mes?",
+  "sede_id": "UPTC_TUN",
+  "from": "2026-01-01T00:00:00Z",
+  "to": "2026-01-31T23:59:59Z"
+}
+

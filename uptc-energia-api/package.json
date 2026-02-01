@@ -1,0 +1,27 @@
+{
+  "name": "uptc-energia-api",
+  "version": "1.0.0",
+  "description": "API REST para análisis de consumo energético UPTC",
+  "type": "module",
+  "main": "src/server.js",
+  "scripts": {
+    "dev": "node src/server.js",
+    "load": "node scripts/load_data.js",
+    "test": "curl http://localhost:3000/health"
+  },
+  "keywords": [
+    "energia",
+    "uptc",
+    "api",
+    "postgresql"
+  ],
+  "author": "UPTC Energy Team",
+  "license": "MIT",
+  "dependencies": {
+    "cors": "^2.8.6",
+    "csv-parse": "^5.5.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.18.3",
+    "pg": "^8.11.3"
+  }
+}
